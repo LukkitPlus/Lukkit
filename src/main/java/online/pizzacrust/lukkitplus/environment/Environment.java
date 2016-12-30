@@ -1,7 +1,9 @@
 package online.pizzacrust.lukkitplus.environment;
 
+import org.bukkit.Bukkit;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LoadState;
+import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 import org.luaj.vm2.compiler.LuaC;
 import org.luaj.vm2.lib.Bit32Lib;
@@ -89,6 +91,20 @@ public class Environment {
     public static void disablePlugins() {
         for (LuaPlugin plugin : PLUGINS) {
             plugin.disablePlugin();
+        }
+    }
+
+    public static class BroadcastFunction implements FunctionController {
+
+        @Override
+        public String getName() {
+            return "broadcast";
+        }
+
+        @Override
+        public LuaValue onCalled(Varargs parameters) {
+            Bukkit.broadcastMessage(parameters.arg(1).tojstring());
+            return LuaValue.NIL;
         }
     }
 
