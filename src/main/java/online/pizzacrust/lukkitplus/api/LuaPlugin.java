@@ -42,6 +42,7 @@ public class LuaPlugin extends LuaLibrary {
         this.version = version;
         this.handler = handler;
         constructHandlerFunctions();
+        newFunction(new AccessLoggerFunction(this));
     }
 
     public void loadPlugin() {
@@ -150,6 +151,24 @@ public class LuaPlugin extends LuaLibrary {
         chunk.call();
     }
 
+    public static class AccessLoggerFunction implements FunctionController {
+
+        private final Logger plugin;
+
+        public AccessLoggerFunction(LuaPlugin plugin) {
+            this.plugin = Logger.getLogger(plugin.getName());
+        }
+
+        @Override
+        public String getName() {
+            return "logger";
+        }
+
+        @Override
+        public LuaValue onCalled(Varargs parameters) {
+            return new LuaLogger(plugin);
+        }
+    }
 
 
 }

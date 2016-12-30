@@ -57,7 +57,8 @@ public class LuaAccessor extends LuaLibrary {
         newFunction(new InvokeVoidMethod(object));
         newFunction(new AccessPrimitiveField(object));
         newFunction(new AccessJavaTypeField(object));
-        newFunction(new AccessJavaTypeField(object));
+        newFunction(new AccessJavaTypeMethod(object));
+        newFunction(new AccessPrimitiveMethod(object));
     }
 
     public static class SetPrimitiveField implements FunctionController {
@@ -126,7 +127,7 @@ public class LuaAccessor extends LuaLibrary {
             List<Object> objParameters = new ArrayList<Object>();
             int index = 1;
             while (index != parameters.narg()) {
-                objParameters.add(parameters.arg(index));
+                objParameters.add(fromType(parameters.arg(index)));
             }
             for (Method method : object.getClass().getMethods()) {
                 method.setAccessible(true);
@@ -166,7 +167,7 @@ public class LuaAccessor extends LuaLibrary {
             List<Object> objParameters = new ArrayList<Object>();
             int index = 1;
             while (index != parameters.narg()) {
-                objParameters.add(parameters.arg(index));
+                objParameters.add(fromType(parameters.arg(index)));
             }
             for (Method method : object.getClass().getMethods()) {
                 method.setAccessible(true);
@@ -235,7 +236,7 @@ public class LuaAccessor extends LuaLibrary {
             List<Object> objParameters = new ArrayList<Object>();
             int index = 1;
             while (index != parameters.narg()) {
-                objParameters.add(parameters.arg(index));
+                objParameters.add(fromType(parameters.arg(index)));
             }
             for (Method method : object.getClass().getMethods()) {
                 method.setAccessible(true);
