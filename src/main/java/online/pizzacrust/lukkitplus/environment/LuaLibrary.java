@@ -26,6 +26,9 @@ public abstract class LuaLibrary extends LuaTable {
         });
     }
 
+    /**
+     * Requires to be loaded to global classpath because uses environment object.
+     */
     public static abstract class StaticLibrary extends LuaLibrary {
 
         public abstract String getName();
