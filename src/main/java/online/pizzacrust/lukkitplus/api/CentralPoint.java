@@ -34,6 +34,8 @@ public class CentralPoint extends LuaLibrary.StaticLibrary {
 
         @Override
         public LuaValue onCalled(Varargs parameters) {
+            System.out.println("NOTE: A plugin is attempting to forceload another/itself! Please " +
+                    "wait until lifecycle reaches plugin, and not forceloading!");
             Environment.loadByName(parameters.arg(1).tojstring());
             return LuaValue.NIL;
         }
