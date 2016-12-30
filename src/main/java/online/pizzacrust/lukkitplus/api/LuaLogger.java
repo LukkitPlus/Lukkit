@@ -12,6 +12,8 @@ import online.pizzacrust.lukkitplus.environment.LuaLibrary;
 public class LuaLogger extends LuaLibrary {
     private final Logger logger;
 
+    public LuaLogger() { this.logger = null; }
+
     public LuaLogger(Logger logger) {
         this.logger = logger;
         newFunction(new InfoLog(logger));
@@ -39,7 +41,9 @@ public class LuaLogger extends LuaLibrary {
 
         @Override
         public LuaValue onCalled(Varargs parameters) {
-            logger.info(parameters.arg(1).tojstring());
+            //logger.info(String.valueOf(parameters == null));
+            //logger.info(String.valueOf(parameters.narg()));
+            logger.info(parameters.arg1().tojstring());
             return LuaValue.NIL;
         }
     }

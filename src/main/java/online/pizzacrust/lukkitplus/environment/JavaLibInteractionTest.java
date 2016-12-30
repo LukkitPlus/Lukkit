@@ -46,8 +46,8 @@ public class JavaLibInteractionTest extends LuaLibrary.StaticLibrary {
                 return LuaValue.NIL;
             }
         });
-        /*
-        final Logger logger = LogManager.getLogManager().getLogger("Meow");
+
+        final Logger logger = Logger.getLogger("Meow");
         newFunction(new FunctionController() {
             @Override
             public String getName() {
@@ -55,11 +55,11 @@ public class JavaLibInteractionTest extends LuaLibrary.StaticLibrary {
             }
 
             @Override
-            public LuaValue onCalled(LuaValue... parameters) {
+            public LuaValue onCalled(Varargs parameters) {
                 return new LuaLogger(logger);
             }
         });
-        */
+
     }
 
     public static void main(String[] args) throws Exception {
@@ -74,7 +74,6 @@ public class JavaLibInteractionTest extends LuaLibrary.StaticLibrary {
         globals.load(new JseMathLib());
         globals.load(new JseIoLib());
         globals.load(new JseOsLib());
-        //globals.load(new LuaLogger());
         globals.load(new JavaLibInteractionTest());
         LoadState.install(globals);
         LuaC.install(globals);
