@@ -41,6 +41,11 @@ public class LukkitPlus extends JavaPlugin {
         CentralPoint.LOGGER = getLogger();
         getLogger().info("Loading API on registered candidates...");
         Environment.loadPlugins();
+        getLogger().info("Loading commands...");
+        getCommand("luaplugins").setExecutor(new CommandPluginList());
+        getCommand("luaplugin").setExecutor(new CommandPlugin());
+        getLogger().info("Loading event listener...");
+        getServer().getPluginManager().registerEvents(new ListenerCallback(), this);
         getLogger().info("Lifecycle has reached #onEnable, running functions...");
         Environment.enablePlugins();
     }

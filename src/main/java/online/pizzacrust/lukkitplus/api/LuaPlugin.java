@@ -1,5 +1,6 @@
 package online.pizzacrust.lukkitplus.api;
 
+import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 
@@ -129,6 +130,18 @@ public class LuaPlugin extends LuaLibrary {
             @Override
             public LuaValue onCalled(Varargs parameters) {
                 System.out.println("Global classpath verified!");
+                return LuaValue.NIL;
+            }
+        });
+        Environment.addGlobalFunction(new FunctionController() {
+            @Override
+            public String getName() {
+                return "className";
+            }
+
+            @Override
+            public LuaValue onCalled(Varargs parameters) {
+                System.out.println(parameters.arg(1).getClass().getName());
                 return LuaValue.NIL;
             }
         });
