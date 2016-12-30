@@ -3,6 +3,7 @@ package online.pizzacrust.lukkitplus.environment;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LoadState;
 import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.Varargs;
 import org.luaj.vm2.compiler.LuaC;
 import org.luaj.vm2.lib.Bit32Lib;
 import org.luaj.vm2.lib.CoroutineLib;
@@ -15,8 +16,12 @@ import org.luaj.vm2.lib.jse.JseMathLib;
 import org.luaj.vm2.lib.jse.JseOsLib;
 
 import java.io.File;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
-public class JavaLibInteractionTest extends LuaLibrary {
+import online.pizzacrust.lukkitplus.api.LuaLogger;
+
+public class JavaLibInteractionTest extends LuaLibrary.StaticLibrary {
 
     public JavaLibInteractionTest() {
         newFunction(new FunctionController() {
@@ -24,11 +29,37 @@ public class JavaLibInteractionTest extends LuaLibrary {
                 return "helloworld";
             }
 
-            public LuaValue onCalled(LuaValue... parameters) {
+            public LuaValue onCalled(Varargs parameters) {
                 System.out.println("Hello world!");
                 return LuaValue.NIL;
             }
-        }, FunctionController.Type.ZERO);
+        });
+        newFunction(new FunctionController() {
+            @Override
+            public String getName() {
+                return "stringtest";
+            }
+
+            @Override
+            public LuaValue onCalled(Varargs parameters) {
+                System.out.println(parameters.arg(1).tojstring());
+                return LuaValue.NIL;
+            }
+        });
+        /*
+        final Logger logger = LogManager.getLogManager().getLogger("Meow");
+        newFunction(new FunctionController() {
+            @Override
+            public String getName() {
+                return "logger";
+            }
+
+            @Override
+            public LuaValue onCalled(LuaValue... parameters) {
+                return new LuaLogger(logger);
+            }
+        });
+        */
     }
 
     public static void main(String[] args) throws Exception {
@@ -43,6 +74,7 @@ public class JavaLibInteractionTest extends LuaLibrary {
         globals.load(new JseMathLib());
         globals.load(new JseIoLib());
         globals.load(new JseOsLib());
+        //globals.load(new LuaLogger());
         globals.load(new JavaLibInteractionTest());
         LoadState.install(globals);
         LuaC.install(globals);
