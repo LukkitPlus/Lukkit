@@ -1,5 +1,7 @@
 package online.pizzacrust.lukkitplus.api;
 
+import net.md_5.bungee.api.ChatColor;
+
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
@@ -28,6 +30,10 @@ public class LuaLogger extends LuaLibrary {
         }
     }
 
+    public static String colorString(String string) {
+        return ChatColor.translateAlternateColorCodes('&', string);
+    }
+
     public static class InfoLog extends LoggerReferenceController implements FunctionController {
 
         public InfoLog(Logger logger) {
@@ -43,7 +49,7 @@ public class LuaLogger extends LuaLibrary {
         public LuaValue onCalled(Varargs parameters) {
             //logger.info(String.valueOf(parameters == null));
             //logger.info(String.valueOf(parameters.narg()));
-            logger.info(parameters.arg1().tojstring());
+            logger.info(colorString(parameters.arg1().tojstring()));
             return LuaValue.NIL;
         }
     }
@@ -60,7 +66,7 @@ public class LuaLogger extends LuaLibrary {
 
         @Override
         public LuaValue onCalled(Varargs parameters) {
-            logger.severe(parameters.arg(1).tojstring());
+            logger.severe(colorString(parameters.arg(1).tojstring()));
             return LuaValue.NIL;
         }
     }
@@ -77,7 +83,7 @@ public class LuaLogger extends LuaLibrary {
 
         @Override
         public LuaValue onCalled(Varargs parameters) {
-            logger.warning(parameters.arg(1).tojstring());
+            logger.warning(colorString(parameters.arg(1).tojstring()));
             return LuaValue.NIL;
         }
     }
