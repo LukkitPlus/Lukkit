@@ -1,4 +1,4 @@
-package online.pizzacrust.lukkitplus;
+package online.pizzacrust.lukkitplus.environment;
 
 import org.luaj.vm2.LuaValue;
 

@@ -1,8 +1,7 @@
-package online.pizzacrust.lukkitplus;
+package online.pizzacrust.lukkitplus.environment;
 
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LoadState;
-import org.luaj.vm2.LuaFunction;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.compiler.LuaC;
 import org.luaj.vm2.lib.Bit32Lib;
@@ -14,14 +13,8 @@ import org.luaj.vm2.lib.jse.JseBaseLib;
 import org.luaj.vm2.lib.jse.JseIoLib;
 import org.luaj.vm2.lib.jse.JseMathLib;
 import org.luaj.vm2.lib.jse.JseOsLib;
-import org.luaj.vm2.lib.jse.JsePlatform;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 
 public class JavaLibInteractionTest extends LuaLibrary {
 
