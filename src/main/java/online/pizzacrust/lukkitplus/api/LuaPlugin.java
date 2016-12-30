@@ -120,6 +120,18 @@ public class LuaPlugin extends LuaLibrary {
         Environment.loadCoreLibs();
         Environment.loadLukkitLibs();
         Environment.installRuntime();
+        Environment.addGlobalFunction(new FunctionController() {
+            @Override
+            public String getName() {
+                return "verifyGlobal";
+            }
+
+            @Override
+            public LuaValue onCalled(Varargs parameters) {
+                System.out.println("Global classpath verified!");
+                return LuaValue.NIL;
+            }
+        });
         CentralPoint.LOGGER = Logger.getLogger("Logger");
         LuaValue chunk = Environment.GLOBAL_PATH.loadfile(new File(args[0]).getAbsolutePath());
         chunk.call();

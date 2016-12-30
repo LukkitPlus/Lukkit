@@ -31,7 +31,7 @@ public class LuaLogger extends LuaLibrary {
     }
 
     public static String colorString(String string) {
-        return ChatColor.translateAlternateColorCodes('&', string);
+        return org.bukkit.ChatColor.translateAlternateColorCodes('&', string);
     }
 
     public static class InfoLog extends LoggerReferenceController implements FunctionController {

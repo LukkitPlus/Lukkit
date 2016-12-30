@@ -2,12 +2,14 @@ package online.pizzacrust.lukkitplus.environment;
 
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LoadState;
+import org.luaj.vm2.Varargs;
 import org.luaj.vm2.compiler.LuaC;
 import org.luaj.vm2.lib.Bit32Lib;
 import org.luaj.vm2.lib.CoroutineLib;
 import org.luaj.vm2.lib.PackageLib;
 import org.luaj.vm2.lib.StringLib;
 import org.luaj.vm2.lib.TableLib;
+import org.luaj.vm2.lib.VarArgFunction;
 import org.luaj.vm2.lib.jse.JseBaseLib;
 import org.luaj.vm2.lib.jse.JseIoLib;
 import org.luaj.vm2.lib.jse.JseMathLib;
@@ -61,6 +63,15 @@ public class Environment {
             }
         }
         return null;
+    }
+
+    public static void addGlobalFunction(final FunctionController controller) {
+        GLOBAL_PATH.set(controller.getName(), new VarArgFunction() {
+            @Override
+            public Varargs invoke(Varargs varargs) {
+                return controller.onCalled(varargs);
+            }
+        });
     }
 
     public static void loadPlugins() {
