@@ -11,7 +11,7 @@ import online.pizzacrust.lukkitplus.environment.Environment;
 public class CommandPluginList implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (command.getName().equals("plugins")) {
+        if (command.getName().equals("luaplugins")) {
             if (!commandSender.hasPermission("lukkitplus.listpl")) {
                 commandSender.sendMessage(ChatColor.RED + "Sorry, you don't have permission.");
                 return true;

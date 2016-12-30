@@ -54,6 +54,15 @@ public class Environment {
         }
     }
 
+    public static LuaPlugin findByName(String name) {
+        for (LuaPlugin luaPlugin : PLUGINS) {
+            if (luaPlugin.getName().equals(name)) {
+                return luaPlugin;
+            }
+        }
+        return null;
+    }
+
     public static void loadPlugins() {
         for (LuaPlugin plugin : PLUGINS) {
             plugin.loadPlugin();
