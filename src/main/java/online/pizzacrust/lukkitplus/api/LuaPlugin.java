@@ -43,6 +43,9 @@ public class LuaPlugin extends LuaLibrary {
         this.handler = handler;
         constructHandlerFunctions();
         newFunction(new AccessLoggerFunction(this));
+        newFunction(new NameDesc(this));
+        newFunction(new VerDesc(this));
+        newFunction(new DescDesc(this));
     }
 
     public void loadPlugin() {
@@ -167,6 +170,63 @@ public class LuaPlugin extends LuaLibrary {
         @Override
         public LuaValue onCalled(Varargs parameters) {
             return new LuaLogger(plugin);
+        }
+    }
+
+    public static class NameDesc implements FunctionController {
+
+        private final LuaPlugin plugin;
+
+        public NameDesc(LuaPlugin plugin) {
+            this.plugin = plugin;
+        }
+
+        @Override
+        public String getName() {
+            return "name";
+        }
+
+        @Override
+        public LuaValue onCalled(Varargs parameters) {
+            return LuaValue.valueOf(plugin.getName());
+        }
+    }
+
+    public static class DescDesc implements FunctionController {
+
+        private final LuaPlugin plugin;
+
+        public DescDesc(LuaPlugin plugin) {
+            this.plugin = plugin;
+        }
+
+        @Override
+        public String getName() {
+            return "description";
+        }
+
+        @Override
+        public LuaValue onCalled(Varargs parameters) {
+            return LuaValue.valueOf(plugin.getDescription());
+        }
+    }
+
+    public static class VerDesc implements FunctionController {
+
+        private final LuaPlugin plugin;
+
+        public VerDesc(LuaPlugin plugin) {
+            this.plugin = plugin;
+        }
+
+        @Override
+        public String getName() {
+            return "version";
+        }
+
+        @Override
+        public LuaValue onCalled(Varargs parameters) {
+            return LuaValue.valueOf(plugin.getVersion());
         }
     }
 

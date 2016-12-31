@@ -23,6 +23,10 @@ public class LuaAccessor extends LuaLibrary {
             Boolean.class,
     };
 
+    public Object getObject() {
+        return this.object;
+    }
+
     public static boolean isPrimitive(Object object) {
         for (Class<?> primitive : PRIMITIVE_CLASSES) {
             if (primitive == object.getClass()) {
