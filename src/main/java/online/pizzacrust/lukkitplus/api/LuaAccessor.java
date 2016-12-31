@@ -22,43 +22,12 @@ public class LuaAccessor extends LuaLibrary {
 
     private final Object object;
 
-    public static Class<?>[] PRIMITIVE_CLASSES = new Class<?>[] {
-            Integer.class,
-            String.class,
-            Double.class,
-            Boolean.class,
-    };
-
     public Object getObject() {
         return this.object;
     }
 
-    public static boolean isPrimitive(Object object) {
-        for (Class<?> primitive : PRIMITIVE_CLASSES) {
-            if (primitive == object.getClass()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public static LuaValue convertType(Object object) {
-        if (!isPrimitive(object)) {
-            return LuaValue.NIL;
-        }
-        if (object instanceof Integer) {
-            return LuaValue.valueOf((Integer) object);
-        }
-        if (object instanceof String) {
-            return LuaValue.valueOf((String) object);
-        }
-        if (object instanceof Double) {
-            return LuaValue.valueOf((Double) object);
-        }
-        if (object instanceof Boolean) {
-            return LuaValue.valueOf((Boolean) object);
-        }
-        return LuaValue.NIL;
+        return CoerceJavaToLua.coerce(object);
     }
 
     public LuaAccessor(Object object) {
@@ -194,23 +163,26 @@ public class LuaAccessor extends LuaLibrary {
             String name = parameters.arg(1).tojstring();
             List<Object> objParameters = new ArrayList<Object>();
             if (parameters.narg() != 1) {
-                int index = 2;
+                int index = 1;
                 while (index != parameters.narg()) {
-                    objParameters.add(fromType(parameters.arg(index)));
+                    objParameters.add(fromType(parameters.arg(index + 1)));
                     index++;
                 }
             }
             for (Method method : object.getClass().getMethods()) {
                 method.setAccessible(true);
-                if (method.getName().equals(name)) {
-                    try {
-                        return convertType(method.invoke(object, objParameters.toArray(new
-                                Object[objParameters.size
-                                ()])));
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
+                if (Arrays.equals(toArray(convertObjectsToTypes(objParameters)), method
+                        .getParameterTypes())) {
+                    if (method.getName().equals(name)) {
+                        try {
+                            return convertType(method.invoke(object, objParameters.toArray(new
+                                    Object[objParameters.size
+                                    ()])));
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -268,37 +240,23 @@ public class LuaAccessor extends LuaLibrary {
             if (parameters.narg() != 1) {
                 int index = 1;
                 while (index != parameters.narg()) {
-                    System.out.println(fromType(parameters.arg(index + 1)));
                     objParameters.add(fromType(parameters.arg(index + 1)));
                     index++;
                 }
             }
             for (Method method : object.getClass().getMethods()) {
                 method.setAccessible(true);
-                if (method.getName().equals(name)) {
-                    if (objParameters.size() == 0) {
-                        if (method.getParameterTypes().length == 0) {
-                            try {
-                                return new LuaAccessor(method.invoke(object, objParameters.toArray(new
-                                        Object[objParameters.size
-                                        ()])));
-                            } catch (IllegalAccessException e) {
-                                e.printStackTrace();
-                            } catch (InvocationTargetException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    } else {
-                        if (objParameters.equals(Arrays.asList(method.getParameterTypes()))) {
-                            try {
-                                return new LuaAccessor(method.invoke(object, objParameters.toArray(new
-                                        Object[objParameters.size
-                                        ()])));
-                            } catch (IllegalAccessException e) {
-                                e.printStackTrace();
-                            } catch (InvocationTargetException e) {
-                                e.printStackTrace();
-                            }
+                if (Arrays.equals(toArray(convertObjectsToTypes(objParameters)), method
+                        .getParameterTypes())) {
+                    if (method.getName().equals(name)) {
+                        try {
+                            return new LuaAccessor(method.invoke(object, objParameters.toArray(new
+                                    Object[objParameters.size
+                                    ()])));
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
