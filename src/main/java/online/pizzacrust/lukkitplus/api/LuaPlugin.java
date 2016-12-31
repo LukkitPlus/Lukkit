@@ -24,6 +24,8 @@ public class LuaPlugin extends LuaLibrary {
     private boolean isEnabled = false;
     private boolean isLoaded = false;
 
+    private Logger logger = Logger.getLogger(getName());
+
     public String getName() {
         return name;
     }
@@ -42,10 +44,10 @@ public class LuaPlugin extends LuaLibrary {
         this.version = version;
         this.handler = handler;
         constructHandlerFunctions();
-        newFunction(new AccessLoggerFunction(this));
-        newFunction(new NameDesc(this));
-        newFunction(new VerDesc(this));
-        newFunction(new DescDesc(this));
+        set("logger", new LuaLogger(logger));
+        set("name", LuaValue.valueOf(getName()));
+        set("version", LuaValue.valueOf(getVersion()));
+        set("description", LuaValue.valueOf(getDescription()));
     }
 
     public void loadPlugin() {
@@ -153,82 +155,5 @@ public class LuaPlugin extends LuaLibrary {
         LuaValue chunk = Environment.GLOBAL_PATH.loadfile(new File(args[0]).getAbsolutePath());
         chunk.call();
     }
-
-    public static class AccessLoggerFunction implements FunctionController {
-
-        private final Logger plugin;
-
-        public AccessLoggerFunction(LuaPlugin plugin) {
-            this.plugin = Logger.getLogger(plugin.getName());
-        }
-
-        @Override
-        public String getName() {
-            return "logger";
-        }
-
-        @Override
-        public LuaValue onCalled(Varargs parameters) {
-            return new LuaLogger(plugin);
-        }
-    }
-
-    public static class NameDesc implements FunctionController {
-
-        private final LuaPlugin plugin;
-
-        public NameDesc(LuaPlugin plugin) {
-            this.plugin = plugin;
-        }
-
-        @Override
-        public String getName() {
-            return "name";
-        }
-
-        @Override
-        public LuaValue onCalled(Varargs parameters) {
-            return LuaValue.valueOf(plugin.getName());
-        }
-    }
-
-    public static class DescDesc implements FunctionController {
-
-        private final LuaPlugin plugin;
-
-        public DescDesc(LuaPlugin plugin) {
-            this.plugin = plugin;
-        }
-
-        @Override
-        public String getName() {
-            return "description";
-        }
-
-        @Override
-        public LuaValue onCalled(Varargs parameters) {
-            return LuaValue.valueOf(plugin.getDescription());
-        }
-    }
-
-    public static class VerDesc implements FunctionController {
-
-        private final LuaPlugin plugin;
-
-        public VerDesc(LuaPlugin plugin) {
-            this.plugin = plugin;
-        }
-
-        @Override
-        public String getName() {
-            return "version";
-        }
-
-        @Override
-        public LuaValue onCalled(Varargs parameters) {
-            return LuaValue.valueOf(plugin.getVersion());
-        }
-    }
-
 
 }

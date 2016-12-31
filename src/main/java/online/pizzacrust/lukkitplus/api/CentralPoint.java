@@ -12,7 +12,7 @@ import online.pizzacrust.lukkitplus.environment.LuaLibrary;
 
 public class CentralPoint extends LuaLibrary.StaticLibrary {
     public CentralPoint() {
-        newFunction(new LoggerFunctionController());
+        set("logger", new LuaLogger(LOGGER));
         newFunction(new VerifyFunctionController());
         newFunction(new NewPluginController());
         newFunction(new ForceLoadController());
@@ -38,18 +38,6 @@ public class CentralPoint extends LuaLibrary.StaticLibrary {
                     "wait until lifecycle reaches plugin, and not forceloading!");
             Environment.loadByName(parameters.arg(1).tojstring());
             return LuaValue.NIL;
-        }
-    }
-
-    public static class LoggerFunctionController implements FunctionController {
-        @Override
-        public String getName() {
-            return "logger";
-        }
-
-        @Override
-        public LuaValue onCalled(Varargs parameters) {
-            return new LuaLogger(LOGGER);
         }
     }
 
