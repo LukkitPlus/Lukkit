@@ -19,6 +19,7 @@ public class LukkitPlus extends JavaPlugin {
         Environment.loadCoreLibs();
         Environment.loadLukkitLibs();
         Environment.installRuntime();
+        Environment.loadGlobalFunctions();
         getLogger().info("Selecting plugins folder...");
         PLUGINS_FOLDER = new File(this.getDataFolder().getParentFile(), "lua");
         getLogger().info("Selected plugin folder: " + PLUGINS_FOLDER.getAbsolutePath());

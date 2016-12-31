@@ -1,0 +1,16 @@
+name: LukkitPlus
+description: Lukkit continued, unoffically.
+version: 1.0
+main: online.pizzacrust.lukkitplus.LukkitPlus
+commands:
+  luaplugins:
+    description: Lists all enabled LUA plugins
+    permission: lukkitplus.listpl
+  luaplugin:
+    description: Lists info about a specific plugin
+    permission: lukkitplus.pl
+permissions:
+  lukkitplus.listpl:
+    default: true
+  lukkitplus.pl:
+    default: true

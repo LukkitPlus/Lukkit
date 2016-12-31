@@ -34,8 +34,9 @@ public class EventPoint extends LuaLibrary.StaticLibrary {
         @Override
         public LuaValue onCalled(Varargs parameters) {
             LuaPlugin luaPlugin = (LuaPlugin) parameters.arg(1);
-            ATTACHMENTS.add(new EventAttachment(luaPlugin));
-            return LuaValue.NIL;
+            EventAttachment attachment = new EventAttachment(luaPlugin);
+            ATTACHMENTS.add(attachment);
+            return attachment;
         }
     }
 
