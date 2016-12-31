@@ -33,6 +33,16 @@
                             <artifactSet>
                                 <excludes>
                                     <exclude>org.spigotmc:spigot-api</exclude>
+                                    <exclude>net.md-5:bungeecord-chat</exclude>
+                                    <exclude>org.yaml:snakeyaml</exclude>
+                                    <exclude>javax.persistence:persistence-api</exclude>
+                                    <exclude>org.avaje:ebean</exclude>
+                                    <exclude>com.google.code.gson:gson</exclude>
+                                    <exclude>com.google.guava:guava</exclude>
+                                    <exclude>org.hamcrest:hamcrest-core</exclude>
+                                    <exclude>junit:junit</exclude>
+                                    <exclude>com.googlecode.json-simple:json-simple</exclude>
+                                    <exclude>commons-lang:commons-lang</exclude>
                                 </excludes>
                             </artifactSet>
                         </configuration>
