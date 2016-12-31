@@ -24,7 +24,7 @@ public class LuaPlugin extends LuaLibrary {
     private boolean isEnabled = false;
     private boolean isLoaded = false;
 
-    private Logger logger = Logger.getLogger(getName());
+    private Logger logger;
 
     public String getName() {
         return name;
@@ -44,6 +44,7 @@ public class LuaPlugin extends LuaLibrary {
         this.version = version;
         this.handler = handler;
         constructHandlerFunctions();
+        logger = Logger.getLogger(name);
         set("logger", new LuaLogger(logger));
         set("name", LuaValue.valueOf(getName()));
         set("version", LuaValue.valueOf(getVersion()));

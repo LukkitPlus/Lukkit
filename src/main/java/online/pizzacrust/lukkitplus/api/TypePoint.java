@@ -46,7 +46,7 @@ public class TypePoint extends LuaLibrary.StaticLibrary {
         @Override
         public LuaValue onCalled(Varargs parameters) {
             LuaAccessor accessor = (LuaAccessor) parameters.arg(1);
-            return accessor;
+            return new LocationType(accessor);
         }
     }
 
