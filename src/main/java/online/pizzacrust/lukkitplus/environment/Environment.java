@@ -78,6 +78,10 @@ public class Environment {
         });
     }
 
+    public static void addGlobalVariable(String name, LuaValue value) {
+        GLOBAL_PATH.set(name, value);
+    }
+
     public static void loadPlugins() {
         for (LuaPlugin plugin : PLUGINS) {
             plugin.loadPlugin();
@@ -94,6 +98,10 @@ public class Environment {
         for (LuaPlugin plugin : PLUGINS) {
             plugin.disablePlugin();
         }
+    }
+
+    public static void loadGlobalVariables() {
+        addGlobalVariable("bukkitevents", LuaValue.valueOf("org.bukkit.event."));
     }
 
     public static void loadGlobalFunctions() {
