@@ -36,7 +36,7 @@ public class LuaPlugin extends LuaLibrary {
         return version;
     }
 
-    public LuaPlugin(String name, String description, String version, LuaValue handler) {
+    public LuaPlugin(String name, String version, String description, LuaValue handler) {
         this.name = name;
         this.description = description;
         this.version = version;
