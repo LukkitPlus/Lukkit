@@ -1,11 +1,17 @@
 package online.pizzacrust.lukkitplus.api;
 
 
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandMap;
+import org.bukkit.command.SimpleCommandMap;
+import org.bukkit.plugin.SimplePluginManager;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 
+import java.lang.reflect.Field;
 import java.util.logging.Logger;
 
+import online.pizzacrust.lukkitplus.api.cmd.DynamicCommand;
 import online.pizzacrust.lukkitplus.environment.Environment;
 import online.pizzacrust.lukkitplus.environment.FunctionController;
 import online.pizzacrust.lukkitplus.environment.LuaLibrary;
@@ -16,6 +22,7 @@ public class CentralPoint extends LuaLibrary.StaticLibrary {
         newFunction(new VerifyFunctionController());
         newFunction(new NewPluginController());
         newFunction(new ForceLoadController());
+        newFunction(new NewCommandController());
     }
 
     public static Logger LOGGER; // This field will be filled in runtime.
@@ -23,6 +30,32 @@ public class CentralPoint extends LuaLibrary.StaticLibrary {
     @Override
     public String getName() {
         return "lukkit";
+    }
+
+    public static class NewCommandController implements FunctionController {
+
+        @Override
+        public String getName() {
+            return "newCommand";
+        }
+
+        @Override
+        public LuaValue onCalled(Varargs parameters) {
+            String name = parameters.arg(1).tojstring();
+            String desc = parameters.arg(2).tojstring();
+            String usage = parameters.arg(3).tojstring();
+            LuaValue func = parameters.arg(4);
+            DynamicCommand command = new DynamicCommand(name, desc, usage, func);
+            try {
+                Field cmdMapField = SimplePluginManager.class.getDeclaredField("commandMap");
+                cmdMapField.setAccessible(true);
+                CommandMap commandMap = (CommandMap) cmdMapField.get(Bukkit.getPluginManager());
+                commandMap.register(command.getName(), command);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return LuaValue.NIL;
+        }
     }
 
     public static class ForceLoadController implements FunctionController {
