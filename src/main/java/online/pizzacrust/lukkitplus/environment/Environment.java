@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import online.pizzacrust.lukkitplus.api.CentralPoint;
+import online.pizzacrust.lukkitplus.api.DataPoint;
 import online.pizzacrust.lukkitplus.api.EventPoint;
 import online.pizzacrust.lukkitplus.api.LuaPlugin;
 import online.pizzacrust.lukkitplus.api.TypePoint;
@@ -52,6 +53,7 @@ public class Environment {
         GLOBAL_PATH.load(new CentralPoint());
         GLOBAL_PATH.load(new EventPoint());
         GLOBAL_PATH.load(new TypePoint());
+        GLOBAL_PATH.load(new DataPoint());
     }
 
     public static void loadByName(String name) {
