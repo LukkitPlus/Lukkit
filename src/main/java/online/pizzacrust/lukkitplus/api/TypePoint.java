@@ -50,4 +50,18 @@ public class TypePoint extends LuaLibrary.StaticLibrary {
         }
     }
 
+    public static class PlayerWrapperFunction implements FunctionController {
+
+        @Override
+        public String getName() {
+            return "wrapPlayerAccessor";
+        }
+
+        @Override
+        public LuaValue onCalled(Varargs parameters) {
+            LuaAccessor accessor = (LuaAccessor) parameters.arg(1);
+            return new PlayerType(accessor);
+        }
+    }
+
 }
