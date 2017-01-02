@@ -1,14 +1,17 @@
 package online.pizzacrust.lukkitplus.api.event;
 
 import org.bukkit.event.Event;
+import org.bukkit.event.player.PlayerEvent;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import online.pizzacrust.lukkitplus.api.EventType;
 import online.pizzacrust.lukkitplus.api.LuaAccessor;
 import online.pizzacrust.lukkitplus.api.LuaPlugin;
+import online.pizzacrust.lukkitplus.api.PlayerEventType;
 import online.pizzacrust.lukkitplus.environment.FunctionController;
 import online.pizzacrust.lukkitplus.environment.LuaLibrary;
 
@@ -25,7 +28,11 @@ public class EventAttachment extends LuaLibrary {
     public void call(Event event) {
         for (Map.Entry<Class<?>, LuaValue> entry : eventListeners.entrySet()) {
             if (entry.getKey() == event.getClass()) {
-                entry.getValue().call(new LuaAccessor(event));
+                if (event instanceof PlayerEvent) {
+                    entry.getValue().call(new PlayerEventType((PlayerEvent) event));
+                } else {
+                    entry.getValue().call(new EventType(event));
+                }
             }
         }
     }
