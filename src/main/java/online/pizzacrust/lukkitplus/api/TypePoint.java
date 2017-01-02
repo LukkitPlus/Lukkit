@@ -17,6 +17,7 @@ public class TypePoint extends LuaLibrary.StaticLibrary {
     public TypePoint() {
         newFunction(new NewLocationTypeFunction());
         newFunction(new LocationWrapperFunction());
+        newFunction(new PlayerWrapperFunction());
     }
 
     public static class NewLocationTypeFunction implements FunctionController {
