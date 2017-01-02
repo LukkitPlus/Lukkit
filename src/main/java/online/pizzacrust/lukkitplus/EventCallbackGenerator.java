@@ -73,7 +73,7 @@ public class EventCallbackGenerator {
     }
 
     public static void main(String[] args) throws Exception {
-        Reflections reflections = new Reflections("org.bukkit.event");
+        Reflections reflections = new Reflections();
         LukkitPlus.BUKKIT_EVENTS = reflections.getSubTypesOf(Event.class);
         ClassPool classpath = ClassPool.getDefault();
         CtClass eventClass = classpath.makeClass("online.pizzacrust.lukkitplus" +

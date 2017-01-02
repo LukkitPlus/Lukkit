@@ -24,7 +24,7 @@ public class LukkitPlus extends JavaPlugin {
     @Override
     public void onEnable() {
         getLogger().info("Searching for default Bukkit event classes...");
-        Reflections reflections = new Reflections("org.bukkit.event");
+        Reflections reflections = new Reflections();
         BUKKIT_EVENTS = reflections.getSubTypesOf(Event.class);
         getLogger().info("Constructing event handlers...");
         if (!EventCallbackGenerator.isClassGenerated()) {
